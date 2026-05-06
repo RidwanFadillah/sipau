@@ -29,9 +29,13 @@ export default function Confetti() {
   }, []);
 
   useEffect(() => {
-    createConfetti();
-    const timer = setTimeout(() => setShow(false), 5000);
-    return () => clearTimeout(timer);
+    const startTimer = setTimeout(createConfetti, 0);
+    const hideTimer = setTimeout(() => setShow(false), 5000);
+
+    return () => {
+      clearTimeout(startTimer);
+      clearTimeout(hideTimer);
+    };
   }, [createConfetti]);
 
   if (!show) return null;

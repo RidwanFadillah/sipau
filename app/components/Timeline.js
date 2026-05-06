@@ -17,7 +17,7 @@ export default function Timeline() {
     {
       date: '2018',
       title: '🔄 Bertemu Lagi di SMP',
-      desc: 'Kelas 8, dan ternyata kita satu sekolah lagi! Dunia memang sempit — atau mungkin memang sudah ditakdirkan.',
+      desc: 'Kelas 8, dan ternyata kita satu sekolah lagi! Dunia memang sempit, atau mungkin memang sudah ditakdirkan.',
       side: 'left',
     },
     {
@@ -85,8 +85,9 @@ export default function Timeline() {
   return (
     <section className="py-24 relative" id="journey">
       <div className="max-w-4xl mx-auto px-6">
-        <h2 className="font-display text-3xl md:text-4xl text-center mb-4 text-gradient reveal">
-          📍 Perjalanan Kita
+        <h2 className="font-display text-3xl md:text-4xl text-center mb-4 reveal">
+          <span className="mr-2 text-inherit">📍</span>
+          <span className="text-gradient">Perjalanan Kita</span>
         </h2>
         <p className="font-script text-xl md:text-2xl text-center text-purple-400 mb-14 reveal">
           dari TK sampai selamanya
@@ -101,14 +102,14 @@ export default function Timeline() {
               } pl-12 md:pl-0 reveal`}
               style={{ transitionDelay: `${index * 0.1}s` }}
             >
-              {/* Dot */}
               <div
-                className={`absolute top-7 w-4 h-4 rounded-full bg-gradient-to-br from-rose-400 to-lavender border-3 border-dark z-10
-                  ${item.side === 'right' ? 'md:-left-2' : 'md:-right-2'}
-                  left-3 md:left-auto`}
+                className={`absolute top-7 w-4 h-4 rounded-full bg-gradient-to-br from-rose-400 to-lavender border-[3px] border-dark z-10 ${
+                  item.side === 'right'
+                    ? 'left-3 md:-left-2'
+                    : 'left-3 md:left-auto md:-right-2'
+                }`}
               />
 
-              {/* Content */}
               <div className="glass rounded-2xl p-6 transition-transform duration-300 hover:-translate-y-1">
                 <p className="font-script text-lg text-rose-300 mb-2">{item.date}</p>
                 <h3 className="font-display text-base md:text-lg mb-2 text-white">{item.title}</h3>

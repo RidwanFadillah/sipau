@@ -1,61 +1,138 @@
 'use client';
 
-import { useState, useEffect } from 'react';
+import Image from 'next/image';
+import { useCallback, useEffect, useState } from 'react';
+
+const slidePhotos = [
+  '/gallery/photo1.jpg',
+  '/gallery/photo2.jpg',
+  '/gallery/photo3.jpg',
+  '/gallery/photo4.jpg',
+  '/gallery/photo5.jpg',
+  '/gallery/photo6.jpg',
+  '/gallery/photo7.jpg',
+  '/gallery/photo8.jpg',
+];
+
+const photos = [
+  {
+    id: 1,
+    src: '/gallery/photo1.jpg',
+    alt: 'Momen bersama',
+    caption: 'Momen Indah Kita ✨',
+    memory: 'Momen sederhana yang selalu terasa hangat setiap kali aku ingat lagi.',
+  },
+  {
+    id: 2,
+    src: '/gallery/photo2.jpg',
+    alt: 'Kenangan berdua',
+    caption: 'Selalu Ada Tawa 😄',
+    memory: 'Aku suka bagian ketika hal kecil saja bisa bikin kita ketawa lama.',
+  },
+  {
+    id: 3,
+    src: '/gallery/photo3.jpg',
+    alt: 'Jalan-jalan bersama',
+    caption: 'Petualangan Kita 🏞️',
+    memory: 'Perjalanan bareng kamu selalu punya cerita yang ingin aku simpan baik-baik.',
+  },
+  {
+    id: 4,
+    src: '/gallery/photo4.jpg',
+    alt: 'Foto berdua',
+    caption: 'Berdua Lebih Indah 💕',
+    memory: 'Di foto ini aku selalu merasa: ternyata bersama kamu bisa sesederhana ini bahagianya.',
+  },
+  {
+    id: 5,
+    src: '/gallery/photo5.jpg',
+    alt: 'Curug Madi',
+    caption: 'Curug Madi Trip 🌊',
+    memory: 'Hari yang tidak akan aku lupa, karena rasanya seperti awal dari banyak cerita indah.',
+  },
+  {
+    id: 6,
+    src: '/gallery/photo6.jpg',
+    alt: 'Momen spesial',
+    caption: 'Momen Spesial 🌟',
+    memory: 'Ada rasa syukur yang diam-diam muncul setiap kali aku melihat ulang momen ini.',
+  },
+  {
+    id: 7,
+    src: '/gallery/photo7.jpg',
+    alt: 'Date Murah Meriah',
+    caption: 'Date Murah Meriah 🍽️',
+    memory: 'Bukan tempat mahal yang bikin berkesan, tapi karena aku menjalaninya sama kamu.',
+  },
+  {
+    id: 8,
+    src: '/gallery/photo8.jpg',
+    alt: 'Terima Kasih',
+    caption: 'Terima Kasih Sudah Memilih Aku ❤️',
+    memory: 'Dari semua hal yang pernah terjadi, dipilih oleh kamu adalah salah satu yang paling aku syukuri.',
+  },
+  {
+    id: 9,
+    alt: 'Lihat Semua',
+    caption: 'Lihat Semua Kenangan Kita 🗂️',
+    isLink: true,
+    href: 'https://photos.app.goo.gl/pgdyZXxT7Ti8WEyi8',
+  },
+];
+
+const galleryPhotos = photos.filter((photo) => !photo.isLink);
 
 export default function Gallery() {
-  const [selectedImage, setSelectedImage] = useState(null);
+  const [selectedIndex, setSelectedIndex] = useState(null);
   const [currentSlide, setCurrentSlide] = useState(0);
   const [fade, setFade] = useState(true);
+  const selectedImage = selectedIndex === null ? null : galleryPhotos[selectedIndex];
 
-  // Foto-foto yang akan dijadikan slideshow di card ke-9
-  const slidePhotos = [
-    '/gallery/photo1.jpg',
-    '/gallery/photo2.jpg',
-    '/gallery/photo3.jpg',
-    '/gallery/photo4.jpg',
-    '/gallery/photo5.jpg',
-    '/gallery/photo6.jpg',
-    '/gallery/photo7.jpg',
-    '/gallery/photo8.jpg',
-  ];
+  const showPrevious = useCallback(() => {
+    setSelectedIndex((current) => {
+      if (current === null) return current;
+      return current === 0 ? galleryPhotos.length - 1 : current - 1;
+    });
+  }, []);
+
+  const showNext = useCallback(() => {
+    setSelectedIndex((current) => {
+      if (current === null) return current;
+      return current === galleryPhotos.length - 1 ? 0 : current + 1;
+    });
+  }, []);
 
   useEffect(() => {
     const interval = setInterval(() => {
-      // Fade out dulu
       setFade(false);
       setTimeout(() => {
         setCurrentSlide((prev) => (prev + 1) % slidePhotos.length);
-        // Fade in
         setFade(true);
-      }, 400); // durasi fade out
-    }, 2500); // ganti foto tiap 2.5 detik
+      }, 400);
+    }, 2500);
 
     return () => clearInterval(interval);
   }, []);
 
-  const photos = [
-    { id: 1, src: "/gallery/photo1.jpg", alt: 'Momen bersama', caption: 'Momen Indah Kita ✨' },
-    { id: 2, src: '/gallery/photo2.jpg', alt: 'Kenangan berdua', caption: 'Selalu Ada Tawa 😄' },
-    { id: 3, src: '/gallery/photo3.jpg', alt: 'Jalan-jalan bersama', caption: 'Petualangan Kita 🏞️' },
-    { id: 4, src: '/gallery/photo4.jpg', alt: 'Foto berdua', caption: 'Berdua Lebih Indah 💕' },
-    { id: 5, src: '/gallery/photo5.jpg', alt: 'Curug Madi', caption: 'Curug Madi Trip 🌊' },
-    { id: 6, src: '/gallery/photo6.jpg', alt: 'Momen spesial', caption: 'Momen Spesial 🌟' },
-    { id: 7, src: '/gallery/photo7.jpg', alt: 'Date Murah Meriah', caption: 'Date Murah Meriah 🍽️' },
-    { id: 8, src: '/gallery/photo8.jpg', alt: 'Terima Kasih', caption: 'Terima Kasih Sudah Memilih Aku ❤️' },
-    {
-      id: 9,
-      alt: 'Lihat Semua',
-      caption: 'Lihat Semua Kenangan Kita 🗂️',
-      isLink: true,
-      href: 'https://photos.app.goo.gl/pgdyZXxT7Ti8WEyi8'
-    },
-  ];
+  useEffect(() => {
+    if (selectedIndex === null) return undefined;
+
+    const handleKeyDown = (event) => {
+      if (event.key === 'Escape') setSelectedIndex(null);
+      if (event.key === 'ArrowLeft') showPrevious();
+      if (event.key === 'ArrowRight') showNext();
+    };
+
+    window.addEventListener('keydown', handleKeyDown);
+    return () => window.removeEventListener('keydown', handleKeyDown);
+  }, [selectedIndex, showNext, showPrevious]);
 
   return (
     <section className="py-24 relative" id="gallery">
       <div className="max-w-6xl mx-auto px-6">
-        <h2 className="font-display text-3xl md:text-4xl text-center mb-4 text-gradient reveal">
-          📸 Galeri Kita
+        <h2 className="font-display text-3xl md:text-4xl text-center mb-4 reveal">
+          <span className="mr-2 text-inherit">📸</span>
+          <span className="text-gradient">Galeri Kita</span>
         </h2>
         <p className="font-script text-xl md:text-2xl text-center text-purple-400 mb-14 reveal">
           momen-momen yang tidak terlupakan
@@ -64,7 +141,6 @@ export default function Gallery() {
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-5">
           {photos.map((photo, index) => (
             photo.isLink ? (
-              // Card ke-9: Slideshow + Link ke Google Foto
               <a
                 key={photo.id}
                 href={photo.href}
@@ -74,18 +150,18 @@ export default function Gallery() {
                 style={{ transitionDelay: `${index * 0.1}s` }}
               >
                 <div className="relative aspect-[4/3] overflow-hidden">
-                  {/* Foto slideshow */}
-                  <img
+                  <Image
                     src={slidePhotos[currentSlide]}
                     alt="slideshow"
-                    className="w-full h-full object-cover"
+                    fill
+                    sizes="(min-width: 1024px) 33vw, (min-width: 640px) 50vw, 100vw"
+                    className="object-cover"
                     style={{
                       opacity: fade ? 1 : 0,
                       transition: 'opacity 0.4s ease-in-out',
                     }}
                   />
 
-                  {/* Dot indicator */}
                   <div className="absolute bottom-2 left-0 right-0 flex justify-center gap-1 z-10">
                     {slidePhotos.map((_, i) => (
                       <div
@@ -100,7 +176,6 @@ export default function Gallery() {
                     ))}
                   </div>
 
-                  {/* Hover overlay */}
                   <div className="absolute inset-0 bg-black/50 flex flex-col items-center justify-center gap-3 opacity-0 group-hover:opacity-100 transition-opacity duration-300">
                     <span className="text-4xl">📸</span>
                     <p className="text-white font-semibold text-sm tracking-wide">Buka Google Foto →</p>
@@ -113,18 +188,19 @@ export default function Gallery() {
                 </div>
               </a>
             ) : (
-              // Card biasa: klik buka lightbox
               <div
                 key={photo.id}
                 className="gallery-item glass rounded-2xl overflow-hidden cursor-pointer group reveal"
                 style={{ transitionDelay: `${index * 0.1}s` }}
-                onClick={() => setSelectedImage(photo)}
+                onClick={() => setSelectedIndex(galleryPhotos.findIndex((item) => item.id === photo.id))}
               >
                 <div className="relative aspect-[4/3] overflow-hidden">
-                  <img
+                  <Image
                     src={photo.src}
                     alt={photo.alt}
-                    className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105"
+                    fill
+                    sizes="(min-width: 1024px) 33vw, (min-width: 640px) 50vw, 100vw"
+                    className="object-cover transition-transform duration-500 group-hover:scale-105"
                   />
                 </div>
                 <div className="p-4">
@@ -138,31 +214,66 @@ export default function Gallery() {
         </div>
       </div>
 
-      {/* Lightbox Modal */}
       {selectedImage && (
         <div
-          className="fixed inset-0 z-50 bg-black/80 backdrop-blur-md flex items-center justify-center p-6 cursor-pointer"
-          onClick={() => setSelectedImage(null)}
+          className="fixed inset-0 z-50 bg-black/90 backdrop-blur-md flex items-center justify-center p-4 md:p-8 cursor-pointer"
+          onClick={() => setSelectedIndex(null)}
         >
-          <div
-            className="glass rounded-3xl p-6 max-w-2xl w-full max-h-[90vh] overflow-hidden"
-            onClick={(e) => e.stopPropagation()}
+          <button
+            type="button"
+            onClick={(event) => {
+              event.stopPropagation();
+              showPrevious();
+            }}
+            className="absolute left-4 top-1/2 z-10 flex h-11 w-11 -translate-y-1/2 items-center justify-center rounded-full glass text-2xl text-white transition-all duration-300 hover:-translate-x-1 hover:text-rose-200 md:left-8"
+            aria-label="Foto sebelumnya"
           >
-            <div className="relative aspect-[4/3] rounded-2xl overflow-hidden mb-4">
-              <img
+            ‹
+          </button>
+
+          <div
+            className="w-full max-w-5xl cursor-default"
+            onClick={(event) => event.stopPropagation()}
+          >
+            <div className="relative mx-auto flex max-h-[72vh] items-center justify-center overflow-hidden rounded-2xl">
+              <Image
                 src={selectedImage.src}
                 alt={selectedImage.alt}
-                className="w-full h-full object-contain"
+                width={1200}
+                height={900}
+                sizes="100vw"
+                className="max-h-[72vh] w-full object-contain"
               />
             </div>
-            <p className="font-script text-2xl text-rose-300 text-center">{selectedImage.caption}</p>
-            <button
-              onClick={() => setSelectedImage(null)}
-              className="mt-4 mx-auto block px-6 py-2 rounded-full glass text-purple-300 hover:text-white transition-colors text-sm"
-            >
-              Tutup ✕
-            </button>
+
+            <div className="mx-auto mt-5 max-w-2xl text-center">
+              <p className="font-script text-2xl text-rose-300">{selectedImage.caption}</p>
+              <p className="mt-3 text-sm leading-relaxed text-purple-300">
+                {selectedImage.memory}
+              </p>
+              <p className="mt-3 text-xs text-purple-500">
+                {selectedIndex + 1} / {galleryPhotos.length}
+              </p>
+              <button
+                onClick={() => setSelectedIndex(null)}
+                className="mt-5 px-6 py-2 rounded-full glass text-purple-300 hover:text-white transition-colors text-sm"
+              >
+                Tutup ✕
+              </button>
+            </div>
           </div>
+
+          <button
+            type="button"
+            onClick={(event) => {
+              event.stopPropagation();
+              showNext();
+            }}
+            className="absolute right-4 top-1/2 z-10 flex h-11 w-11 -translate-y-1/2 items-center justify-center rounded-full glass text-2xl text-white transition-all duration-300 hover:translate-x-1 hover:text-rose-200 md:right-8"
+            aria-label="Foto berikutnya"
+          >
+            ›
+          </button>
         </div>
       )}
     </section>

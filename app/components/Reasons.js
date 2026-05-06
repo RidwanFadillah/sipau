@@ -37,8 +37,9 @@ export default function Reasons() {
   return (
     <section className="py-24 relative" id="reasons">
       <div className="max-w-6xl mx-auto px-6">
-        <h2 className="font-display text-3xl md:text-4xl text-center mb-4 text-gradient reveal">
-          🌟 Alasan Kamu Luar Biasa
+        <h2 className="font-display text-3xl md:text-4xl text-center mb-4 reveal">
+          <span className="mr-2 text-inherit">🌟</span>
+          <span className="text-gradient">Alasan Kamu Luar Biasa</span>
         </h2>
         <p className="font-script text-xl md:text-2xl text-center text-purple-400 mb-14 reveal">
           hal-hal yang membuatmu istimewa

@@ -17,9 +17,8 @@ export default function FloatingHearts() {
         size: 0.8 + Math.random() * 1.2,
       };
 
-      setHearts(prev => {
+      setHearts((prev) => {
         const updated = [...prev, newHeart];
-        // Keep max 15 hearts
         if (updated.length > 15) {
           return updated.slice(-15);
         }
@@ -32,7 +31,7 @@ export default function FloatingHearts() {
 
   return (
     <div className="floating-hearts">
-      {hearts.map(heart => (
+      {hearts.map((heart) => (
         <span
           key={heart.id}
           className="floating-heart"
