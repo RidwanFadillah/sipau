@@ -2,9 +2,14 @@
 
 import { useState } from 'react';
 
-export default function LoveLetter() {
+export default function LoveLetter({ onOpenLetter }) {
   const [letterOpen, setLetterOpen] = useState(false);
   const [showSurprise, setShowSurprise] = useState(false);
+
+  const handleOpenLetter = () => {
+    onOpenLetter?.();
+    setLetterOpen(true);
+  };
 
   return (
     <section className="py-24 relative" id="letter">
@@ -21,7 +26,7 @@ export default function LoveLetter() {
           <div className="reveal mx-auto max-w-xl">
             <button
               type="button"
-              onClick={() => setLetterOpen(true)}
+              onClick={handleOpenLetter}
               className="group relative block w-full overflow-hidden rounded-3xl border border-white/10 bg-gradient-to-b from-rose-200/15 to-purple-900/20 p-8 shadow-[0_24px_70px_rgba(244,63,94,0.18)] transition-all duration-500 hover:-translate-y-2 hover:shadow-[0_28px_90px_rgba(244,63,94,0.3)]"
             >
               <span className="absolute inset-x-0 top-0 h-1/2 origin-top bg-gradient-to-b from-rose-300/25 to-rose-500/5 transition-transform duration-500 group-hover:-translate-y-2" />

@@ -68,7 +68,7 @@ export default function Home() {
       </section>
 
       {/* ===== LOVE LETTER ===== */}
-      <LoveLetter />
+      <LoveLetter onOpenLetter={handleReadLetter} />
 
       {/* ===== GALLERY ===== */}
       <Gallery />
